@@ -220,13 +220,20 @@ HRESULT StageSelect::Update()
 		int index = 0;									//ファイルの場所を示す変数
 		int arraySize = GetComma(data, &index);			//ファイルにあるデータの数を取得
 
+		int i = 0;
+
 		//データの数だけループ
-		for (int i = 0; i < arraySize; i++)
+		while (i < arraySize)
 		{
 			//ファイルデータは「ブロックの種類(整数)　,(カンマ)」で区切られてるのでカンマごとに区切って配列に格納する
 			stagePartsArray.push_back(GetComma(data, &index));
+			StageData::GetInst()->data[i] = stagePartsArray[i];
+			i++;
+
 		}
 
+		//最後をお知らせするために'\0'をいれる
+		StageData::GetInst()->data[i] = 99;
 		//デフォルトのディレクトリに戻す
 		SetCurrentDirectory(defaultCurrentDir);
 

@@ -69,7 +69,9 @@ Stage::Stage()
 //デストラクタ
 Stage::~Stage()
 {
-	Clear(&startNode);		//ノードの削除(スタートノードから始める)
+	if (flg == 0x01)
+		Clear(&startNode);		//ノードの削除(スタートノードから始める)
+
 	SAFE_DELETE(sprik);		//障害物モデルの解放
 }
 
@@ -78,6 +80,12 @@ Stage::~Stage()
 //戻値：なし
 void Stage::Clear(Node* pNode)
 {
+
+	if (pNode->type == 99)
+	{
+		return;
+	}
+
 	//そのブロックの出口分ループ
 	for (DWORD i = 0; i < blocksState[pNode->type].exitList.size(); i++)
 	{
@@ -359,9 +367,9 @@ HRESULT Stage::Hit(Node* pNode)
 	else
 	{
 		//プレイヤーを下に落とす
-		playerPos.y -= 0.05f;
-		blocksNormal = D3DXVECTOR3(0, 0, 0);
-		isPlayerDown = FALSE;					//ステージと衝突していないのでそのFALSEに
+		//playerPos.y -= 0.05f;
+		//blocksNormal = D3DXVECTOR3(0, 0, 0);
+		//isPlayerDown = FALSE;					//ステージと衝突していないのでそのFALSEに
 	}
 
 	//今のノードの子供の数だけループ
